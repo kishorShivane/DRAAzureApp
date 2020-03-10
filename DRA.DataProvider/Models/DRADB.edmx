@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DRAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CompetenciesJobs">
+          <Key>
+            <PropertyRef Name="Competency" />
+          </Key>
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MainGroup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubGroup" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Competency" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoW" Type="tinyint" Nullable="false" />
+          <Property Name="Senior_Executive" Type="tinyint" Nullable="false" />
+          <Property Name="Executive" Type="tinyint" Nullable="false" />
+          <Property Name="Chief_Specialist" Type="tinyint" Nullable="false" />
+          <Property Name="Senior_Manager" Type="tinyint" Nullable="false" />
+          <Property Name="Senior_Specialist" Type="tinyint" Nullable="false" />
+          <Property Name="Manager" Type="tinyint" Nullable="false" />
+          <Property Name="Professional_Specialist" Type="tinyint" Nullable="false" />
+          <Property Name="Team_Leader" Type="tinyint" Nullable="false" />
+          <Property Name="Technical_Specialist" Type="tinyint" Nullable="false" />
+          <Property Name="Office_Administrator" Type="tinyint" Nullable="false" />
+          <Property Name="Business_Process_Implementor" Type="tinyint" Nullable="false" />
+          <Property Name="General_Worker" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="JobCompetencyMatrices">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="Maingroup" />
+            <PropertyRef Name="Subgroup" />
+            <PropertyRef Name="Competency" />
+            <PropertyRef Name="LoW" />
+            <PropertyRef Name="RequiredLevel" />
+          </Key>
+          <Property Name="JobID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Maingroup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Subgroup" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Competency" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoW" Type="tinyint" Nullable="false" />
+          <Property Name="RequiredLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Jobs">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="tinyint" Nullable="false" />
+          <Property Name="JobTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="JobBand" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCompetencyMatrices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="tinyint" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MainGroup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubGroup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Competency" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoW" Type="tinyint" Nullable="false" />
+          <Property Name="RequiredLevel" Type="int" Nullable="false" />
+          <Property Name="CurrentLevel" Type="int" Nullable="false" />
+          <Property Name="RatingDate" Type="datetime" Nullable="false" />
+          <Property Name="Gap" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserSurname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserActive" Type="tinyint" Nullable="false" />
+          <Property Name="Industry" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BusinessFunction" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="JobID" Type="tinyint" Nullable="false" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DRAModelStoreContainer">
+          <EntitySet Name="CompetenciesJobs" EntityType="Self.CompetenciesJobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCompetencyMatrices" EntityType="Self.UserCompetencyMatrices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobCompetencyMatrices" EntityType="Self.JobCompetencyMatrices" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [JobCompetencyMatrices].[JobID] AS [JobID], 
+    [JobCompetencyMatrices].[Type] AS [Type], 
+    [JobCompetencyMatrices].[Maingroup] AS [Maingroup], 
+    [JobCompetencyMatrices].[Subgroup] AS [Subgroup], 
+    [JobCompetencyMatrices].[Competency] AS [Competency], 
+    [JobCompetencyMatrices].[LoW] AS [LoW], 
+    [JobCompetencyMatrices].[RequiredLevel] AS [RequiredLevel]
+    FROM [dbo].[JobCompetencyMatrices] AS [JobCompetencyMatrices]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DRAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DRAContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CompetenciesJobs" EntityType="DRAModel.CompetenciesJob" />
+          <EntitySet Name="Jobs" EntityType="DRAModel.Job" />
+          <EntitySet Name="UserCompetencyMatrices" EntityType="DRAModel.UserCompetencyMatrix" />
+          <EntitySet Name="Users" EntityType="DRAModel.User" />
+          <EntitySet Name="JobCompetencyMatrices" EntityType="DRAModel.JobCompetencyMatrix" />
+        </EntityContainer>
+        <EntityType Name="CompetenciesJob">
+          <Key>
+            <PropertyRef Name="Competency" />
+          </Key>
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MainGroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubGroup" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Competency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoW" Type="Byte" Nullable="false" />
+          <Property Name="Senior_Executive" Type="Byte" Nullable="false" />
+          <Property Name="Executive" Type="Byte" Nullable="false" />
+          <Property Name="Chief_Specialist" Type="Byte" Nullable="false" />
+          <Property Name="Senior_Manager" Type="Byte" Nullable="false" />
+          <Property Name="Senior_Specialist" Type="Byte" Nullable="false" />
+          <Property Name="Manager" Type="Byte" Nullable="false" />
+          <Property Name="Professional_Specialist" Type="Byte" Nullable="false" />
+          <Property Name="Team_Leader" Type="Byte" Nullable="false" />
+          <Property Name="Technical_Specialist" Type="Byte" Nullable="false" />
+          <Property Name="Office_Administrator" Type="Byte" Nullable="false" />
+          <Property Name="Business_Process_Implementor" Type="Byte" Nullable="false" />
+          <Property Name="General_Worker" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="Byte" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobBand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserCompetencyMatrix">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Byte" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MainGroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubGroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Competency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoW" Type="Byte" Nullable="false" />
+          <Property Name="RequiredLevel" Type="Int32" Nullable="false" />
+          <Property Name="CurrentLevel" Type="Int32" Nullable="false" />
+          <Property Name="RatingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Gap" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserSurname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserActive" Type="Byte" Nullable="false" />
+          <Property Name="Industry" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Organization" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessFunction" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobID" Type="Byte" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="JobCompetencyMatrix">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="Maingroup" />
+            <PropertyRef Name="Subgroup" />
+            <PropertyRef Name="Competency" />
+            <PropertyRef Name="LoW" />
+            <PropertyRef Name="RequiredLevel" />
+          </Key>
+          <Property Name="JobID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Maingroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Subgroup" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Competency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoW" Type="Byte" Nullable="false" />
+          <Property Name="RequiredLevel" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DRAModelStoreContainer" CdmEntityContainer="DRAContext">
+          <EntitySetMapping Name="CompetenciesJobs">
+            <EntityTypeMapping TypeName="DRAModel.CompetenciesJob">
+              <MappingFragment StoreEntitySet="CompetenciesJobs">
+                <ScalarProperty Name="General_Worker" ColumnName="General_Worker" />
+                <ScalarProperty Name="Business_Process_Implementor" ColumnName="Business_Process_Implementor" />
+                <ScalarProperty Name="Office_Administrator" ColumnName="Office_Administrator" />
+                <ScalarProperty Name="Technical_Specialist" ColumnName="Technical_Specialist" />
+                <ScalarProperty Name="Team_Leader" ColumnName="Team_Leader" />
+                <ScalarProperty Name="Professional_Specialist" ColumnName="Professional_Specialist" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="Senior_Specialist" ColumnName="Senior_Specialist" />
+                <ScalarProperty Name="Senior_Manager" ColumnName="Senior_Manager" />
+                <ScalarProperty Name="Chief_Specialist" ColumnName="Chief_Specialist" />
+                <ScalarProperty Name="Executive" ColumnName="Executive" />
+                <ScalarProperty Name="Senior_Executive" ColumnName="Senior_Executive" />
+                <ScalarProperty Name="LoW" ColumnName="LoW" />
+                <ScalarProperty Name="Competency" ColumnName="Competency" />
+                <ScalarProperty Name="SubGroup" ColumnName="SubGroup" />
+                <ScalarProperty Name="MainGroup" ColumnName="MainGroup" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="DRAModel.Job">
+              <MappingFragment StoreEntitySet="Jobs">
+                <ScalarProperty Name="JobBand" ColumnName="JobBand" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCompetencyMatrices">
+            <EntityTypeMapping TypeName="DRAModel.UserCompetencyMatrix">
+              <MappingFragment StoreEntitySet="UserCompetencyMatrices">
+                <ScalarProperty Name="Gap" ColumnName="Gap" />
+                <ScalarProperty Name="RatingDate" ColumnName="RatingDate" />
+                <ScalarProperty Name="CurrentLevel" ColumnName="CurrentLevel" />
+                <ScalarProperty Name="RequiredLevel" ColumnName="RequiredLevel" />
+                <ScalarProperty Name="LoW" ColumnName="LoW" />
+                <ScalarProperty Name="Competency" ColumnName="Competency" />
+                <ScalarProperty Name="SubGroup" ColumnName="SubGroup" />
+                <ScalarProperty Name="MainGroup" ColumnName="MainGroup" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DRAModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="BusinessFunction" ColumnName="BusinessFunction" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="Industry" ColumnName="Industry" />
+                <ScalarProperty Name="UserActive" ColumnName="UserActive" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserSurname" ColumnName="UserSurname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobCompetencyMatrices">
+            <EntityTypeMapping TypeName="DRAModel.JobCompetencyMatrix">
+              <MappingFragment StoreEntitySet="JobCompetencyMatrices">
+                <ScalarProperty Name="RequiredLevel" ColumnName="RequiredLevel" />
+                <ScalarProperty Name="LoW" ColumnName="LoW" />
+                <ScalarProperty Name="Competency" ColumnName="Competency" />
+                <ScalarProperty Name="Subgroup" ColumnName="Subgroup" />
+                <ScalarProperty Name="Maingroup" ColumnName="Maingroup" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
