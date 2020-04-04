@@ -18,10 +18,16 @@ namespace DRA.BusinessLogic.Workers
             UserModel result = null;
             var userRepo = unitOfWork.GetRepository<User>();
             var userCompRepo = unitOfWork.GetRepository<UserCompetencyMatrix>();
+            var jobRepo = unitOfWork.GetRepository<Job>();
             var user = await Task.Run(() => userRepo.Get(x => x.UserEmail == userModel.UserEmail && x.UserPassword == userModel.UserPassword).FirstOrDefault());
             if (user != null)
             {
                 result = DataToDomain.MapUserToUserModel(user);
+                var job = await Task.Run(() => jobRepo.Get(x => x.JobID == user.JobID).FirstOrDefault());
+                if (job != null)
+                {
+                    result.JobTitle = job.JobTitle;
+                }               
                 var lastCompetency = userCompRepo.Get(x=>x.UserID == user.UserID).OrderByDescending(x=>x.RatingDate).FirstOrDefault();
                 if (lastCompetency != null)
                 {

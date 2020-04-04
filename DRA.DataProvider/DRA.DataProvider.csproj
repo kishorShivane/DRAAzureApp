@@ -83,10 +83,28 @@
     <Compile Include="Models\JobCompetencyMatrix.cs">
       <DependentUpon>DRADB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OnlineAssessmentUser.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Risk.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>DRADB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserAnswer.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserCompetencyMatrix.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRisk.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserType.cs">
       <DependentUpon>DRADB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

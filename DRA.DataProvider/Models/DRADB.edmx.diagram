@@ -4,12 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d398ea9c36ea499eb74543597c5a76c9" Name="Diagram1">
+      <Diagram DiagramId="d398ea9c36ea499eb74543597c5a76c9" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="DRAModel.CompetenciesJob" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DRAModel.Job" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="DRAModel.UserCompetencyMatrix" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="DRAModel.User" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="DRAModel.JobCompetencyMatrix" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DRAModel.OnlineAssessmentUser" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DRAModel.Question" Width="1.5" PointX="9.625" PointY="6.75" />
+        <EntityTypeShape EntityType="DRAModel.Risk" Width="1.5" PointX="7.375" PointY="3.125" />
+        <EntityTypeShape EntityType="DRAModel.UserAnswer" Width="1.5" PointX="11.875" PointY="4.5" />
+        <EntityTypeShape EntityType="DRAModel.UserRisk" Width="1.5" PointX="9.625" PointY="3" />
+        <EntityTypeShape EntityType="DRAModel.UserType" Width="1.5" PointX="5.125" PointY="9.5" />
+        <AssociationConnector Association="DRAModel.FK_OnlineAssessmentUser_UserType" />
+        <AssociationConnector Association="DRAModel.FK_UserAnswers_OnlineAssessmentUser" />
+        <AssociationConnector Association="DRAModel.FK_UserRisks_OnlineAssessmentUser" />
+        <AssociationConnector Association="DRAModel.FK_Questions_Questions" />
+        <AssociationConnector Association="DRAModel.FK_UserAnswers_Questions" />
+        <AssociationConnector Association="DRAModel.FK_UserAnswers_Risks" />
+        <AssociationConnector Association="DRAModel.FK_UserRisks_Risks" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

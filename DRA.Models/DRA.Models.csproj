@@ -44,6 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompetenciesReportRequest.cs" />
+    <Compile Include="ERAQuestion.cs" />
+    <Compile Include="ERARisk.cs" />
+    <Compile Include="ERAUserAnswerModel.cs" />
+    <Compile Include="ERAUserModel.cs" />
+    <Compile Include="ERAUserRiskModel.cs" />
     <Compile Include="JobModel.cs" />
     <Compile Include="JobCompetenciesModel.cs" />
     <Compile Include="JobCompetencyMetricsModel.cs" />
