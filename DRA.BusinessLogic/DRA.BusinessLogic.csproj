@@ -72,13 +72,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Workers\BaseWorker.cs" />
+    <Compile Include="Workers\ERAUserAnswerWorker.cs" />
+    <Compile Include="Workers\ERARiskWorker.cs" />
+    <Compile Include="Workers\ERARegistrationWorker.cs" />
+    <Compile Include="Workers\ERALoginWorker.cs" />
     <Compile Include="Workers\LoginWorker.cs" />
     <Compile Include="Mapper\DataToDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Workers\ERAQuestionnaireWorker.cs" />
     <Compile Include="Workers\QuestionnaireWorker.cs" />
     <Compile Include="Workers\RegistrationWorker.cs" />
     <Compile Include="Workers\ReportsWorker.cs" />
     <Compile Include="Workers\ActivationWorker.cs" />
+    <Compile Include="Workers\ERAResetPasswordWorker.cs" />
     <Compile Include="Workers\ResetPasswordWorker.cs" />
     <Compile Include="Utility\IdentityHelper.cs" />
   </ItemGroup>

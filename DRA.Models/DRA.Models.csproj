@@ -43,18 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompetenciesReportRequest.cs" />
-    <Compile Include="ERAQuestion.cs" />
-    <Compile Include="ERARisk.cs" />
+    <Compile Include="Request\CompetenciesReportRequest.cs" />
+    <Compile Include="ERAQuestionModel.cs" />
+    <Compile Include="ERARiskModel.cs" />
+    <Compile Include="Request\ERARiskRequest.cs" />
+    <Compile Include="Request\ERAUserAnswerWriteRequest.cs" />
+    <Compile Include="Response\ERARiskResponse.cs" />
     <Compile Include="ERAUserAnswerModel.cs" />
+    <Compile Include="Request\ERAUserAnswerReadRequest.cs" />
+    <Compile Include="Response\ERAUserAnswerResponse.cs" />
     <Compile Include="ERAUserModel.cs" />
     <Compile Include="ERAUserRiskModel.cs" />
+    <Compile Include="ERAUserTypeModel.cs" />
     <Compile Include="JobModel.cs" />
     <Compile Include="JobCompetenciesModel.cs" />
     <Compile Include="JobCompetencyMetricsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuestionnaireResponse.cs" />
-    <Compile Include="QuestionnaireRequest.cs" />
+    <Compile Include="Request\ERAQuestionnaireRequest.cs" />
+    <Compile Include="Response\ERAQuestionnaireResponse.cs" />
+    <Compile Include="Response\QuestionnaireResponse.cs" />
+    <Compile Include="Request\QuestionnaireRequest.cs" />
     <Compile Include="ResetPasswordModel.cs" />
     <Compile Include="ResponseMessage.cs" />
     <Compile Include="UserCompetencyMatrixModel.cs" />

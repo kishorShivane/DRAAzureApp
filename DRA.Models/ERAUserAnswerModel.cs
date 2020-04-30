@@ -8,11 +8,11 @@ namespace DRA.Models
 {
     public class ERAUserAnswerModel
     {
-        public int UserAnswerId { get; set; }
-        public int UserId { get; set; }
+        public int UserAnswerID { get; set; }
+        public int UserID { get; set; }
         public System.DateTime AssesmentDate { get; set; }
-        public int RiskId { get; set; }
-        public int QuestionId { get; set; }
+        public int RiskID { get; set; }
+        public int QuestionID { get; set; }
         public string Answer { get; set; }
         public int Score { get; set; }
     }

@@ -16,5 +16,7 @@ namespace DRA.Models
         public string Password { get; set; }
         public System.DateTime RegisteredDate { get; set; }
         public int UserTypeId { get; set; }
+        public string UserType { get; set; }
+        public bool IsTestTaken { get; set; }
     }
 }

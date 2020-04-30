@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DRA.Models
 {
-    public class ERAQuestion
+    public class ERAQuestionModel
     {
-        public int QuestionId { get; set; }
-        public int RiskId { get; set; }
+        public int QuestionID { get; set; }
+        public int RiskID { get; set; }
         public string Question { get; set; }
         public string Comment { get; set; }
     }

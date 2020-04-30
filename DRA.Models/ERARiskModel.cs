@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DRA.Models
 {
-    public class ERARisk
+    public class ERARiskModel
     {
-        public int RiskId { get; set; }
+        public int RiskID { get; set; }
         public string Domain { get; set; }
         public string Category { get; set; }
         public string Risk { get; set; }
