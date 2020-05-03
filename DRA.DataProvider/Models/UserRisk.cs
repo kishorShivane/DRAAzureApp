@@ -18,11 +18,11 @@ namespace DRA.DataProvider.Models
         public int UserId { get; set; }
         public System.DateTime AssesmentDate { get; set; }
         public int RiskId { get; set; }
-        public int Score { get; set; }
+        public double Score { get; set; }
         public int RiskValue { get; set; }
         public string Risk { get; set; }
     
-        public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
         public virtual Risk Risk1 { get; set; }
+        public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
     }
 }

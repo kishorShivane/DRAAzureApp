@@ -12,51 +12,49 @@ using Microsoft.Extensions.Logging;
 
 namespace DRA.AzureFunction.Functions
 {
-    public static class ERAQuestionnaire
+    public static class ERAUserRiskRead
     {
-        [FunctionName("ERAQuestionnaire")]
+        [FunctionName("ERAUserRiskRead")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequestMessage req, ILogger log)
         {
-            log.LogInformation("Start - Question Request ");
+            log.LogInformation("Start - Get User Risk Request ");
             HttpResponseMessage response = null;
-            ERAQuestionnaireWorker worker = null;
+            ERAUserRiskWorker worker = null;
             var message = "";
             try
             {
-                var request = await req.Content.ReadAsAsync<ERAQuestionnaireRequest>();
+                var request = await req.Content.ReadAsAsync<ERAUserRiskReadRequest>();
                 if (request != null)
                 {
-                    log.LogInformation("Processing question Request ");
-                    worker = new ERAQuestionnaireWorker(log);
-                    var reponse = await worker.GetQuestions(request);
+                    log.LogInformation("Processing get user risk Request ");
+                    worker = new ERAUserRiskWorker(log);
+                    var reponse = await worker.GetUserRisks(request);
 
                     if (reponse != null)
                     {
-                        message = "Questions request successful!!";
+                        message = "Get user risk request successful!!";
                         log.LogInformation(message);
                     }
                     else
                     {
-                        message = "No Questions match request!!";
+                        message = "No user risk match request!!";
                         log.LogInformation(message);
                     }
-                    response = req.CreateResponse(HttpStatusCode.OK, new ResponseMessage<ERAQuestionnaireResponse>() { Message = message, Content = reponse }) ;
+                    response = req.CreateResponse(HttpStatusCode.OK, new ResponseMessage<ERAUserRiskResponse>() { Message = message, Content = reponse });
                 }
                 else
                 {
                     message = "Failed to parse request";
                     log.LogError(message);
-                    response = req.CreateResponse(System.Net.HttpStatusCode.BadRequest, new ResponseMessage<ERAQuestionnaireResponse>() { Message = message, Content = null });
+                    response = req.CreateResponse(System.Net.HttpStatusCode.BadRequest, new ResponseMessage<ERAUserRiskResponse>() { Message = message, Content = null });
                 }
-
-                log.LogInformation("End - Question Request ");
             }
             catch (Exception ex)
             {
                 log.LogError(ex.Message, ex);
-                response = req.CreateResponse(HttpStatusCode.InternalServerError, new ResponseMessage<ERAQuestionnaireResponse>() { Message = ex.Message, Content = null });
+                response = req.CreateResponse(HttpStatusCode.InternalServerError, new ResponseMessage<ERAUserRiskResponse>() { Message = ex.Message, Content = null });
             }
-
+            log.LogInformation("End - Get User Risk Request ");
             return response;
         }
     }

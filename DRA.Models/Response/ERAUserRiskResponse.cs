@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DRA.Models
 {
-    public class ERAQuestionnaireResponse
+    public class ERAUserRiskResponse
     {
-        public List<ERAQuestionModel> Questions { get; set; }
+        public List<ERAUserRiskModel> UserRisks { get; set; }
         public int TotalRecords { get; set; }
     }
 }

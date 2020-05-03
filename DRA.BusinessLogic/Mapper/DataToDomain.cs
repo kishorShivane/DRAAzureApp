@@ -76,6 +76,36 @@ namespace DRA.BusinessLogic.Mapper
             return risksModel;
         }
 
+        public static List<ERAUserRiskModel> MapUserRisksToERAUserRisks(List<UserRisk> userRisks)
+        {
+            List<ERAUserRiskModel> userRisksModel = null;
+            if (userRisks.Any())
+            {
+                userRisksModel = new List<ERAUserRiskModel>();
+                userRisks.ForEach(x =>
+                {
+                    userRisksModel.Add(new ERAUserRiskModel() { RiskID = x.RiskId,UserRisksID = x.UserRisksId,Risk = x.Risk,RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserID = x.UserId });
+                });
+            }
+
+            return userRisksModel;
+        }
+
+        public static List<UserRisk> MapERAUserRisksToUserRisks(List<ERAUserRiskModel> userRisksModel)
+        {
+            List<UserRisk> userRisks = null;
+            if (userRisksModel.Any())
+            {
+                userRisks = new List<UserRisk>();
+                userRisksModel.ForEach(x =>
+                {
+                    userRisks.Add(new UserRisk() { RiskId = x.RiskID, UserRisksId = x.UserRisksID, Risk = x.Risk, RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserId = x.UserID });
+                });
+            }
+            return userRisks;
+        }
+
+
         public static List<ERAUserAnswerModel> MapUserAnswersToERAUserAnswers(List<UserAnswer> answers)
         {
             List<ERAUserAnswerModel> answersModel = null;
@@ -90,6 +120,7 @@ namespace DRA.BusinessLogic.Mapper
            
             return answersModel;
         }
+
 
         public static List<UserAnswer> MapERAUserAnswersToUserAnswers(List<ERAUserAnswerModel> userAnswers)
         {
@@ -116,6 +147,7 @@ namespace DRA.BusinessLogic.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 RegisteredDate = user.RegisteredDate,
+                CompanyName = user.CompanyName,
                 UserId = user.UserId,
                 UserTypeId = user.UserTypeId
             };
@@ -131,6 +163,7 @@ namespace DRA.BusinessLogic.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 RegisteredDate = user.RegisteredDate,
+                CompanyName = user.CompanyName,
                 UserId = user.UserId,
                 UserTypeId = user.UserTypeId
             };

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DRA.Models
 {
-    public class ERAQuestionnaireRequest
+    public class ERAQuestionRequest
     {
         public int QuestionID { get; set; }
         public int RiskID{ get; set; }

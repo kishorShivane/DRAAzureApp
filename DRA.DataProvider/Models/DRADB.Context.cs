@@ -30,11 +30,11 @@ namespace DRA.DataProvider.Models
         public virtual DbSet<UserCompetencyMatrix> UserCompetencyMatrices { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<JobCompetencyMatrix> JobCompetencyMatrices { get; set; }
-        public virtual DbSet<OnlineAssessmentUser> OnlineAssessmentUsers { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Risk> Risks { get; set; }
-        public virtual DbSet<UserRisk> UserRisks { get; set; }
         public virtual DbSet<UserType> UserTypes { get; set; }
         public virtual DbSet<UserAnswer> UserAnswers { get; set; }
+        public virtual DbSet<UserRisk> UserRisks { get; set; }
+        public virtual DbSet<OnlineAssessmentUser> OnlineAssessmentUsers { get; set; }
     }
 }

@@ -62,6 +62,7 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" />
           <Property Name="EmployeeNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
@@ -122,7 +123,7 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="AssesmentDate" Type="date" Nullable="false" />
           <Property Name="RiskId" Type="int" Nullable="false" />
-          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="Score" Type="float" Nullable="false" />
           <Property Name="RiskValue" Type="int" Nullable="false" />
           <Property Name="Risk" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
@@ -294,32 +295,14 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <EntitySet Name="UserCompetencyMatrices" EntityType="DRAModel.UserCompetencyMatrix" />
           <EntitySet Name="Users" EntityType="DRAModel.User" />
           <EntitySet Name="JobCompetencyMatrices" EntityType="DRAModel.JobCompetencyMatrix" />
-          <EntitySet Name="OnlineAssessmentUsers" EntityType="DRAModel.OnlineAssessmentUser" />
           <EntitySet Name="Questions" EntityType="DRAModel.Question" />
           <EntitySet Name="Risks" EntityType="DRAModel.Risk" />
-          <EntitySet Name="UserRisks" EntityType="DRAModel.UserRisk" />
           <EntitySet Name="UserTypes" EntityType="DRAModel.UserType" />
-          <AssociationSet Name="FK_OnlineAssessmentUser_UserType" Association="DRAModel.FK_OnlineAssessmentUser_UserType">
-            <End Role="UserType" EntitySet="UserTypes" />
-            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRisks_OnlineAssessmentUser" Association="DRAModel.FK_UserRisks_OnlineAssessmentUser">
-            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
-            <End Role="UserRisk" EntitySet="UserRisks" />
-          </AssociationSet>
           <AssociationSet Name="FK_Questions_Questions" Association="DRAModel.FK_Questions_Questions">
             <End Role="Risk" EntitySet="Risks" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserRisks_Risks" Association="DRAModel.FK_UserRisks_Risks">
-            <End Role="Risk" EntitySet="Risks" />
-            <End Role="UserRisk" EntitySet="UserRisks" />
-          </AssociationSet>
           <EntitySet Name="UserAnswers" EntityType="DRAModel.UserAnswer" />
-          <AssociationSet Name="FK_UserAnswers_OnlineAssessmentUser" Association="DRAModel.FK_UserAnswers_OnlineAssessmentUser">
-            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
-            <End Role="UserAnswer" EntitySet="UserAnswers" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserAnswers_Questions" Association="DRAModel.FK_UserAnswers_Questions">
             <End Role="Question" EntitySet="Questions" />
             <End Role="UserAnswer" EntitySet="UserAnswers" />
@@ -328,7 +311,25 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
             <End Role="Risk" EntitySet="Risks" />
             <End Role="UserAnswer" EntitySet="UserAnswers" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="UserRisks" EntityType="DRAModel.UserRisk" />
+          <AssociationSet Name="FK_UserRisks_Risks" Association="DRAModel.FK_UserRisks_Risks">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="UserRisk" EntitySet="UserRisks" />
+          </AssociationSet>
+          <EntitySet Name="OnlineAssessmentUsers" EntityType="DRAModel.OnlineAssessmentUser" />
+          <AssociationSet Name="FK_OnlineAssessmentUser_UserType" Association="DRAModel.FK_OnlineAssessmentUser_UserType">
+            <End Role="UserType" EntitySet="UserTypes" />
+            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAnswers_OnlineAssessmentUser" Association="DRAModel.FK_UserAnswers_OnlineAssessmentUser">
+            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
+            <End Role="UserAnswer" EntitySet="UserAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRisks_OnlineAssessmentUser" Association="DRAModel.FK_UserRisks_OnlineAssessmentUser">
+            <End Role="OnlineAssessmentUser" EntitySet="OnlineAssessmentUsers" />
+            <End Role="UserRisk" EntitySet="UserRisks" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="CompetenciesJob">
           <Key>
             <PropertyRef Name="Competency" />
@@ -409,22 +410,6 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="LoW" Type="Byte" Nullable="false" />
           <Property Name="RequiredLevel" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="OnlineAssessmentUser">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmployeeNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RegisteredDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UserType" Relationship="DRAModel.FK_OnlineAssessmentUser_UserType" FromRole="OnlineAssessmentUser" ToRole="UserType" />
-          <NavigationProperty Name="UserRisks" Relationship="DRAModel.FK_UserRisks_OnlineAssessmentUser" FromRole="OnlineAssessmentUser" ToRole="UserRisk" />
-          <NavigationProperty Name="UserAnswers" Relationship="DRAModel.FK_UserAnswers_OnlineAssessmentUser" FromRole="OnlineAssessmentUser" ToRole="UserAnswer" />
-        </EntityType>
         <EntityType Name="Question">
           <Key>
             <PropertyRef Name="QuestionId" />
@@ -445,22 +430,8 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="Category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Risk1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Questions" Relationship="DRAModel.FK_Questions_Questions" FromRole="Risk" ToRole="Question" />
-          <NavigationProperty Name="UserRisks" Relationship="DRAModel.FK_UserRisks_Risks" FromRole="Risk" ToRole="UserRisk" />
           <NavigationProperty Name="UserAnswers" Relationship="DRAModel.FK_UserAnswers_Risks" FromRole="Risk" ToRole="UserAnswer" />
-        </EntityType>
-        <EntityType Name="UserRisk">
-          <Key>
-            <PropertyRef Name="UserRisksId" />
-          </Key>
-          <Property Name="UserRisksId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="AssesmentDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="RiskId" Type="Int32" Nullable="false" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-          <Property Name="RiskValue" Type="Int32" Nullable="false" />
-          <Property Name="Risk" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OnlineAssessmentUser" Relationship="DRAModel.FK_UserRisks_OnlineAssessmentUser" FromRole="UserRisk" ToRole="OnlineAssessmentUser" />
-          <NavigationProperty Name="Risk1" Relationship="DRAModel.FK_UserRisks_Risks" FromRole="UserRisk" ToRole="Risk" />
+          <NavigationProperty Name="UserRisks" Relationship="DRAModel.FK_UserRisks_Risks" FromRole="Risk" ToRole="UserRisk" />
         </EntityType>
         <EntityType Name="UserType">
           <Key>
@@ -470,30 +441,6 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="UserTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OnlineAssessmentUsers" Relationship="DRAModel.FK_OnlineAssessmentUser_UserType" FromRole="UserType" ToRole="OnlineAssessmentUser" />
         </EntityType>
-        <Association Name="FK_OnlineAssessmentUser_UserType">
-          <End Type="DRAModel.UserType" Role="UserType" Multiplicity="1" />
-          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserType">
-              <PropertyRef Name="UserTypeId" />
-            </Principal>
-            <Dependent Role="OnlineAssessmentUser">
-              <PropertyRef Name="UserTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRisks_OnlineAssessmentUser">
-          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="1" />
-          <End Type="DRAModel.UserRisk" Role="UserRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OnlineAssessmentUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="UserRisk">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Questions_Questions">
           <End Type="DRAModel.Risk" Role="Risk" Multiplicity="1" />
           <End Type="DRAModel.Question" Role="Question" Multiplicity="*" />
@@ -502,18 +449,6 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
               <PropertyRef Name="RiskId" />
             </Principal>
             <Dependent Role="Question">
-              <PropertyRef Name="RiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRisks_Risks">
-          <End Type="DRAModel.Risk" Role="Risk" Multiplicity="1" />
-          <End Type="DRAModel.UserRisk" Role="UserRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Risk">
-              <PropertyRef Name="RiskId" />
-            </Principal>
-            <Dependent Role="UserRisk">
               <PropertyRef Name="RiskId" />
             </Dependent>
           </ReferentialConstraint>
@@ -529,22 +464,10 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
           <Property Name="QuestionId" Type="Int32" Nullable="false" />
           <Property Name="Answer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Score" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="OnlineAssessmentUser" Relationship="DRAModel.FK_UserAnswers_OnlineAssessmentUser" FromRole="UserAnswer" ToRole="OnlineAssessmentUser" />
           <NavigationProperty Name="Question" Relationship="DRAModel.FK_UserAnswers_Questions" FromRole="UserAnswer" ToRole="Question" />
           <NavigationProperty Name="Risk" Relationship="DRAModel.FK_UserAnswers_Risks" FromRole="UserAnswer" ToRole="Risk" />
+          <NavigationProperty Name="OnlineAssessmentUser" Relationship="DRAModel.FK_UserAnswers_OnlineAssessmentUser" FromRole="UserAnswer" ToRole="OnlineAssessmentUser" />
         </EntityType>
-        <Association Name="FK_UserAnswers_OnlineAssessmentUser">
-          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="1" />
-          <End Type="DRAModel.UserAnswer" Role="UserAnswer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OnlineAssessmentUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="UserAnswer">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserAnswers_Questions">
           <End Type="DRAModel.Question" Role="Question" Multiplicity="1" />
           <End Type="DRAModel.UserAnswer" Role="UserAnswer" Multiplicity="*" />
@@ -569,7 +492,86 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="UserRisk">
+          <Key>
+            <PropertyRef Name="UserRisksId" />
+          </Key>
+          <Property Name="UserRisksId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AssesmentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RiskId" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Double" Nullable="false" />
+          <Property Name="RiskValue" Type="Int32" Nullable="false" />
+          <Property Name="Risk" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Risk1" Relationship="DRAModel.FK_UserRisks_Risks" FromRole="UserRisk" ToRole="Risk" />
+          <NavigationProperty Name="OnlineAssessmentUser" Relationship="DRAModel.FK_UserRisks_OnlineAssessmentUser" FromRole="UserRisk" ToRole="OnlineAssessmentUser" />
+        </EntityType>
+        <Association Name="FK_UserRisks_Risks">
+          <End Type="DRAModel.Risk" Role="Risk" Multiplicity="1" />
+          <End Type="DRAModel.UserRisk" Role="UserRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="UserRisk">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OnlineAssessmentUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegisteredDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserType" Relationship="DRAModel.FK_OnlineAssessmentUser_UserType" FromRole="OnlineAssessmentUser" ToRole="UserType" />
+          <NavigationProperty Name="UserAnswers" Relationship="DRAModel.FK_UserAnswers_OnlineAssessmentUser" FromRole="OnlineAssessmentUser" ToRole="UserAnswer" />
+          <NavigationProperty Name="UserRisks" Relationship="DRAModel.FK_UserRisks_OnlineAssessmentUser" FromRole="OnlineAssessmentUser" ToRole="UserRisk" />
+        </EntityType>
+        <Association Name="FK_OnlineAssessmentUser_UserType">
+          <End Type="DRAModel.UserType" Role="UserType" Multiplicity="1" />
+          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="UserTypeId" />
+            </Principal>
+            <Dependent Role="OnlineAssessmentUser">
+              <PropertyRef Name="UserTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAnswers_OnlineAssessmentUser">
+          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="1" />
+          <End Type="DRAModel.UserAnswer" Role="UserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OnlineAssessmentUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRisks_OnlineAssessmentUser">
+          <End Type="DRAModel.OnlineAssessmentUser" Role="OnlineAssessmentUser" Multiplicity="1" />
+          <End Type="DRAModel.UserRisk" Role="UserRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OnlineAssessmentUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRisk">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -654,20 +656,6 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OnlineAssessmentUsers">
-            <EntityTypeMapping TypeName="DRAModel.OnlineAssessmentUser">
-              <MappingFragment StoreEntitySet="OnlineAssessmentUser">
-                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
-                <ScalarProperty Name="RegisteredDate" ColumnName="RegisteredDate" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmployeeNumber" ColumnName="EmployeeNumber" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="DRAModel.Question">
               <MappingFragment StoreEntitySet="Questions">
@@ -685,19 +673,6 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserRisks">
-            <EntityTypeMapping TypeName="DRAModel.UserRisk">
-              <MappingFragment StoreEntitySet="UserRisks">
-                <ScalarProperty Name="Risk" ColumnName="Risk" />
-                <ScalarProperty Name="RiskValue" ColumnName="RiskValue" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="AssesmentDate" ColumnName="AssesmentDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserRisksId" ColumnName="UserRisksId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -719,6 +694,34 @@ warning 6002: The table/view 'db-hcmdradev-01.dbo.JobCompetencyMatrices' does no
                 <ScalarProperty Name="AssesmentDate" ColumnName="AssesmentDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserAnswerId" ColumnName="UserAnswerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRisks">
+            <EntityTypeMapping TypeName="DRAModel.UserRisk">
+              <MappingFragment StoreEntitySet="UserRisks">
+                <ScalarProperty Name="Risk" ColumnName="Risk" />
+                <ScalarProperty Name="RiskValue" ColumnName="RiskValue" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="AssesmentDate" ColumnName="AssesmentDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRisksId" ColumnName="UserRisksId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OnlineAssessmentUsers">
+            <EntityTypeMapping TypeName="DRAModel.OnlineAssessmentUser">
+              <MappingFragment StoreEntitySet="OnlineAssessmentUser">
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+                <ScalarProperty Name="RegisteredDate" ColumnName="RegisteredDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmployeeNumber" ColumnName="EmployeeNumber" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
