@@ -26,7 +26,7 @@ namespace DRA.BusinessLogic.Workers
             var userRiskRepo = unitOfWork.GetRepository<UserRisk>();
             var users = await Task.Run(() => userRepo.Get(x => (string.IsNullOrEmpty(request.LastName) || x.LastName.Contains(request.LastName)) &&
             (string.IsNullOrEmpty(request.Email) || x.Email.Contains(request.Email)) &&
-            (string.IsNullOrEmpty(request.CompanyName) || x.Email.Contains(request.CompanyName))).ToList());
+            (string.IsNullOrEmpty(request.CompanyName) || x.CompanyName.Contains(request.CompanyName))).ToList());
 
             if (users.Any())
             {
