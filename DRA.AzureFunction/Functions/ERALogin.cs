@@ -3,10 +3,16 @@ using DRA.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Script.Serialization;
 
 namespace DRA.AzureFunction.Functions
 {
@@ -19,9 +25,12 @@ namespace DRA.AzureFunction.Functions
             HttpResponseMessage response = null;
             ERALoginWorker worker = null;
             var message = "";
+            ERAUserModel user;
             try
             {
-                var user = await req.Content.ReadAsAsync<ERAUserModel>();
+
+                user = await req.Content.ReadAsAsync<ERAUserModel>();
+
                 if (user != null)
                 {
                     log.LogInformation("Processing ERA Login Request for User: " + user.Email);

@@ -3,12 +3,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Script.Serialization;
 using DRA.BusinessLogic.Workers;
 using DRA.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace DRA.AzureFunction.Functions
 {
@@ -21,9 +24,23 @@ namespace DRA.AzureFunction.Functions
             HttpResponseMessage response = null;
             QuestionnaireWorker worker = null;
             var message = "";
+            QuestionnaireRequest request;
             try
             {
-                var request= await req.Content.ReadAsAsync<QuestionnaireRequest>();
+                if (req.Content.Headers.ContentType.ToString() == "application/x-www-form-urlencoded")
+                {
+                    var value = await req.Content.ReadAsStringAsync();
+                    var dict = HttpUtility.ParseQueryString(value);
+                    var json = new JavaScriptSerializer().Serialize(
+                                                             dict.Keys.Cast<string>()
+                                                                 .ToDictionary(k => k, k => dict[k]));
+                    request = JsonConvert.DeserializeObject<QuestionnaireRequest>(json);
+                }
+                else
+                {
+                    request = await req.Content.ReadAsAsync<QuestionnaireRequest>();
+                }
+
                 if (request != null)
                 {
                     log.LogInformation("Processing questionnaire Request for User");

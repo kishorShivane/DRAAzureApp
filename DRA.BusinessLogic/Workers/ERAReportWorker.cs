@@ -34,7 +34,9 @@ namespace DRA.BusinessLogic.Workers
                 if (userTakenTest != null)
                 {
                     response = new List<ERAUserModel>();
-                    var userTakenTestIDs = userTakenTest.Select(x => new { x.UserId, x.TestIdentifier, x.AssesmentDate }).Distinct().ToList();
+                    var userTakenTestIDs = request.TestIdentifier.HasValue ? userTakenTest.Select(x => new { x.UserId, x.TestIdentifier, x.AssesmentDate }).Where(x => x.TestIdentifier == request.TestIdentifier).Distinct().ToList() :
+                        userTakenTest.Select(x => new { x.UserId, x.TestIdentifier, x.AssesmentDate }).Distinct().ToList();
+
                     userTakenTestIDs.ForEach(x =>
                     {
                         var user = users.FirstOrDefault(z => z.UserId == x.UserId);
