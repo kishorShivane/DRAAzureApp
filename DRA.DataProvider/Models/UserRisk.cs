@@ -21,8 +21,9 @@ namespace DRA.DataProvider.Models
         public double Score { get; set; }
         public int RiskValue { get; set; }
         public string Risk { get; set; }
+        public System.Guid TestIdentifier { get; set; }
     
-        public virtual Risk Risk1 { get; set; }
         public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
+        public virtual Risk Risk1 { get; set; }
     }
 }

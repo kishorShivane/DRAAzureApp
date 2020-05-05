@@ -24,8 +24,9 @@ namespace DRA.BusinessLogic.Workers
             var message = "";
             var userRepo = unitOfWork.GetRepository<OnlineAssessmentUser>();
             var userRiskRepo = unitOfWork.GetRepository<UserRisk>();
-            var users = await Task.Run(() => userRepo.Get(x => (request.UserID == 0 || x.UserId == request.UserID) &&
-            (string.IsNullOrEmpty(request.Email) || x.Email.Contains(request.Email))).ToList());
+            var users = await Task.Run(() => userRepo.Get(x => (string.IsNullOrEmpty(request.LastName) || x.LastName.Contains(request.LastName)) &&
+            (string.IsNullOrEmpty(request.Email) || x.Email.Contains(request.Email)) &&
+            (string.IsNullOrEmpty(request.CompanyName) || x.Email.Contains(request.CompanyName))).ToList());
 
             if (users.Any())
             {
@@ -33,13 +34,13 @@ namespace DRA.BusinessLogic.Workers
                 if (userTakenTest != null)
                 {
                     response = new List<ERAUserModel>();
-                    var userTakenTestIDs = userTakenTest.Select(x => x.UserId).Distinct().ToList();
+                    var userTakenTestIDs = userTakenTest.Select(x => new { x.UserId, x.TestIdentifier, x.AssesmentDate }).Distinct().ToList();
                     userTakenTestIDs.ForEach(x =>
                     {
-                        var user = users.FirstOrDefault(z => z.UserId == x);
-                        if(user != null)
+                        var user = users.FirstOrDefault(z => z.UserId == x.UserId);
+                        if (user != null)
                         {
-                            response.Add(DataToDomain.MapUserToERAUserModel(user));
+                            response.Add(DataToDomain.MapUserToERAUserModel(user, true, x.AssesmentDate, x.TestIdentifier));
                         }
                     });
                     message = "Found " + response.Count() + " records";

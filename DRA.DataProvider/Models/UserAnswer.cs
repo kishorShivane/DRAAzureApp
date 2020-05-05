@@ -21,9 +21,10 @@ namespace DRA.DataProvider.Models
         public int QuestionId { get; set; }
         public string Answer { get; set; }
         public int Score { get; set; }
+        public System.Guid TestIdentifier { get; set; }
     
+        public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
         public virtual Question Question { get; set; }
         public virtual Risk Risk { get; set; }
-        public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
     }
 }

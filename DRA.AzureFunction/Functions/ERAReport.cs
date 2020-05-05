@@ -25,7 +25,7 @@ namespace DRA.AzureFunction.Functions
                 var request = await req.Content.ReadAsAsync<ERAReportRequest>();
                 if (request != null)
                 {
-                    log.LogInformation("Processing ERA Report Request for User: " + request.UserID);
+                    log.LogInformation("Processing ERA Report Request");
                     worker = new ERAReportWorker(log);
                     var result = await worker.GetERAUserReport(request);
 

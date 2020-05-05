@@ -11,5 +11,6 @@ namespace DRA.Models
         public int RiskID { get; set; } = 0;
         public int QuestionID { get; set; } = 0;
         public int UserID { get; set; } = 0;
+        public Guid? TestIdentifier { get; set; }
     }
 }

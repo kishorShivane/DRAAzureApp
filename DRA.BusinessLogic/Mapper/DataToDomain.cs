@@ -57,7 +57,7 @@ namespace DRA.BusinessLogic.Mapper
                     questionsModel.Add(new ERAQuestionModel() { RiskID = x.RiskId, Comment = x.Comment, Question = x.Question1, QuestionID = x.QuestionId });
                 });
             }
-            
+
             return questionsModel;
         }
 
@@ -72,7 +72,7 @@ namespace DRA.BusinessLogic.Mapper
                     risksModel.Add(new ERARiskModel() { RiskID = x.RiskId, Category = x.Category, Domain = x.Domain, Risk = x.Risk1 });
                 });
             }
-           
+
             return risksModel;
         }
 
@@ -84,7 +84,7 @@ namespace DRA.BusinessLogic.Mapper
                 userRisksModel = new List<ERAUserRiskModel>();
                 userRisks.ForEach(x =>
                 {
-                    userRisksModel.Add(new ERAUserRiskModel() { RiskID = x.RiskId,UserRisksID = x.UserRisksId,Risk = x.Risk,RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserID = x.UserId });
+                    userRisksModel.Add(new ERAUserRiskModel() { RiskID = x.RiskId, UserRisksID = x.UserRisksId, Risk = x.Risk, RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserID = x.UserId, TestIdentifier = x.TestIdentifier });
                 });
             }
 
@@ -99,7 +99,7 @@ namespace DRA.BusinessLogic.Mapper
                 userRisks = new List<UserRisk>();
                 userRisksModel.ForEach(x =>
                 {
-                    userRisks.Add(new UserRisk() { RiskId = x.RiskID, UserRisksId = x.UserRisksID, Risk = x.Risk, RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserId = x.UserID });
+                    userRisks.Add(new UserRisk() { RiskId = x.RiskID, UserRisksId = x.UserRisksID, Risk = x.Risk, RiskValue = x.RiskValue, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserId = x.UserID, TestIdentifier = x.TestIdentifier });
                 });
             }
             return userRisks;
@@ -114,10 +114,10 @@ namespace DRA.BusinessLogic.Mapper
                 answersModel = new List<ERAUserAnswerModel>();
                 answers.ForEach(x =>
                 {
-                    answersModel.Add(new ERAUserAnswerModel() { RiskID = x.RiskId, QuestionID = x.QuestionId, UserAnswerID = x.UserAnswerId, Answer = x.Answer, AssesmentDate = Convert.ToDateTime(x.AssesmentDate.ToShortDateString()), Score = x.Score, UserID = x.UserId });
+                    answersModel.Add(new ERAUserAnswerModel() { RiskID = x.RiskId, QuestionID = x.QuestionId, UserAnswerID = x.UserAnswerId, Answer = x.Answer, AssesmentDate = x.AssesmentDate, Score = x.Score, UserID = x.UserId, TestIdentifier = x.TestIdentifier });
                 });
             }
-           
+
             return answersModel;
         }
 
@@ -130,14 +130,14 @@ namespace DRA.BusinessLogic.Mapper
                 answers = new List<UserAnswer>();
                 userAnswers.ForEach(x =>
                 {
-                    answers.Add(new UserAnswer() { RiskId = x.RiskID, QuestionId = x.QuestionID, UserAnswerId = x.UserAnswerID, Answer = x.Answer, AssesmentDate = x.AssesmentDate, Score = x.Score, UserId = x.UserID });
+                    answers.Add(new UserAnswer() { RiskId = x.RiskID, QuestionId = x.QuestionID, UserAnswerId = x.UserAnswerID, Answer = x.Answer, AssesmentDate = x.AssesmentDate, Score = x.Score, UserId = x.UserID, TestIdentifier = x.TestIdentifier });
                 });
             }
 
             return answers;
         }
 
-        public static ERAUserModel MapUserToERAUserModel(OnlineAssessmentUser user)
+        public static ERAUserModel MapUserToERAUserModel(OnlineAssessmentUser user, bool isTestTaken = false, DateTime? assessmentDate = null, Guid? testIdentifier = null)
         {
             return new ERAUserModel()
             {
@@ -149,7 +149,10 @@ namespace DRA.BusinessLogic.Mapper
                 RegisteredDate = user.RegisteredDate,
                 CompanyName = user.CompanyName,
                 UserId = user.UserId,
-                UserTypeId = user.UserTypeId
+                UserTypeId = user.UserTypeId,
+                IsTestTaken = isTestTaken,
+                LastAssessmentDate = assessmentDate,
+                LatestTestIdentifier = testIdentifier
             };
         }
 

@@ -19,5 +19,7 @@ namespace DRA.Models
         public int UserTypeId { get; set; }
         public string UserType { get; set; }
         public bool IsTestTaken { get; set; }
+        public DateTime? LastAssessmentDate { get; set; }
+        public Guid? LatestTestIdentifier { get; set; }
     }
 }

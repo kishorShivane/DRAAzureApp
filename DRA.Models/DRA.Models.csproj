@@ -45,32 +45,32 @@
   <ItemGroup>
     <Compile Include="Request\ERAReportRequest.cs" />
     <Compile Include="Request\CompetenciesReportRequest.cs" />
-    <Compile Include="ERAQuestionModel.cs" />
-    <Compile Include="ERARiskModel.cs" />
+    <Compile Include="Model\ERAQuestionModel.cs" />
+    <Compile Include="Model\ERARiskModel.cs" />
     <Compile Include="Request\ERARiskRequest.cs" />
     <Compile Include="Request\ERAUserRiskReadRequest.cs" />
     <Compile Include="Request\ERAUserRiskWriteRequest.cs" />
     <Compile Include="Request\ERAUserAnswerWriteRequest.cs" />
     <Compile Include="Response\ERARiskResponse.cs" />
-    <Compile Include="ERAUserAnswerModel.cs" />
+    <Compile Include="Model\ERAUserAnswerModel.cs" />
     <Compile Include="Request\ERAUserAnswerReadRequest.cs" />
     <Compile Include="Response\ERAUserRiskResponse.cs" />
     <Compile Include="Response\ERAUserAnswerResponse.cs" />
-    <Compile Include="ERAUserModel.cs" />
-    <Compile Include="ERAUserRiskModel.cs" />
-    <Compile Include="ERAUserTypeModel.cs" />
-    <Compile Include="JobModel.cs" />
-    <Compile Include="JobCompetenciesModel.cs" />
-    <Compile Include="JobCompetencyMetricsModel.cs" />
+    <Compile Include="Model\ERAUserModel.cs" />
+    <Compile Include="Model\ERAUserRiskModel.cs" />
+    <Compile Include="Model\ERAUserTypeModel.cs" />
+    <Compile Include="Model\JobModel.cs" />
+    <Compile Include="Model\JobCompetenciesModel.cs" />
+    <Compile Include="Model\JobCompetencyMetricsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\ERAQuestionRequest.cs" />
     <Compile Include="Response\ERAQuestionResponse.cs" />
     <Compile Include="Response\QuestionnaireResponse.cs" />
     <Compile Include="Request\QuestionnaireRequest.cs" />
-    <Compile Include="ResetPasswordModel.cs" />
-    <Compile Include="ResponseMessage.cs" />
-    <Compile Include="UserCompetencyMatrixModel.cs" />
-    <Compile Include="UserModel.cs" />
+    <Compile Include="Model\ResetPasswordModel.cs" />
+    <Compile Include="Model\ResponseMessage.cs" />
+    <Compile Include="Model\UserCompetencyMatrixModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

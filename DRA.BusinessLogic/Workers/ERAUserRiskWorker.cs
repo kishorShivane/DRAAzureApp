@@ -21,7 +21,8 @@ namespace DRA.BusinessLogic.Workers
             List<ERAUserRiskModel> userRisksModel = null;
             var userRiskRepo = unitOfWork.GetRepository<UserRisk>();
             var userRisks = await Task.Run(() => userRiskRepo.Get(x => (x.RiskId == request.RiskID || request.RiskID == 0) &&
-                                                                (x.UserId == request.UserID || request.UserID == 0)).ToList());
+                                                                (x.UserId == request.UserID || request.UserID == 0)&&
+                                                                (x.TestIdentifier == request.TestIdentifier|| request.TestIdentifier== null)).ToList());
             if (userRisks != null && userRisks.Any())
             {
                 userRisksModel = DataToDomain.MapUserRisksToERAUserRisks(userRisks);

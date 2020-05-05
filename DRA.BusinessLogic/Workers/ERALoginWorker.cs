@@ -28,10 +28,16 @@ namespace DRA.BusinessLogic.Workers
                 {
                     result.UserType = userType.UserTypeName;
                 }
-                var userRisk = userRiskRepo.Get(x => x.UserId == user.UserId).FirstOrDefault();
+                var userRisk = userRiskRepo.Get(x => x.UserId == user.UserId).ToList();
                 if (userRisk != null)
                 {
-                    result.IsTestTaken = true;
+                    var latestTestEntry = userRisk.Select(x => new { x.AssesmentDate, x.TestIdentifier }).OrderByDescending(x => x.AssesmentDate).FirstOrDefault();
+                    if (latestTestEntry != null)
+                    {
+                        result.IsTestTaken = true;
+                        result.LastAssessmentDate = latestTestEntry.AssesmentDate;
+                        result.LatestTestIdentifier = latestTestEntry.TestIdentifier;
+                    }
                     //result.LastTestTakenOn = lastCompetency.RatingDate;
                 }
             }

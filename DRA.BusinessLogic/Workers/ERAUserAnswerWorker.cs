@@ -22,7 +22,8 @@ namespace DRA.BusinessLogic.Workers
             var answersRepo = unitOfWork.GetRepository<UserAnswer>();
             var answers = await Task.Run(() => answersRepo.Get(x => (x.RiskId == request.RiskID || request.RiskID == 0) &&
                                                                 (x.QuestionId == request.QuestionID || request.QuestionID == 0) &&
-                                                                (x.UserId == request.UserID || request.UserID == 0)).ToList());
+                                                                (x.UserId == request.UserID || request.UserID == 0) &&
+                                                                (x.TestIdentifier== request.TestIdentifier|| request.TestIdentifier== null)).ToList());
             if (answers != null && answers.Any())
             {
                 answersModel = DataToDomain.MapUserAnswersToERAUserAnswers(answers);
