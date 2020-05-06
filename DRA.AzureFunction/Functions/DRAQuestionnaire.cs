@@ -1,17 +1,15 @@
+using DRA.BusinessLogic.Workers;
+using DRA.Models;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Script.Serialization;
-using DRA.BusinessLogic.Workers;
-using DRA.Models;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace DRA.AzureFunction.Functions
 {
@@ -30,10 +28,13 @@ namespace DRA.AzureFunction.Functions
                 if (req.Content.Headers.ContentType.ToString() == "application/x-www-form-urlencoded")
                 {
                     var value = await req.Content.ReadAsStringAsync();
+
                     var dict = HttpUtility.ParseQueryString(value);
-                    var json = new JavaScriptSerializer().Serialize(
-                                                             dict.Keys.Cast<string>()
+                    var json = JsonConvert.SerializeObject(dict.Keys.Cast<string>()
                                                                  .ToDictionary(k => k, k => dict[k]));
+                    //var json = new JavaScriptSerializer().Serialize(
+                    //                                         dict.Keys.Cast<string>()
+                    //                                             .ToDictionary(k => k, k => dict[k]));
                     request = JsonConvert.DeserializeObject<QuestionnaireRequest>(json);
                 }
                 else
@@ -52,11 +53,11 @@ namespace DRA.AzureFunction.Functions
                         switch (result.Item3)
                         {
                             case 1:
-                                response = req.CreateResponse(HttpStatusCode.Created, new ResponseMessage<QuestionnaireResponse>() { Message = result.Item1, Content = result.Item2});
+                                response = req.CreateResponse(HttpStatusCode.Created, new ResponseMessage<QuestionnaireResponse>() { Message = result.Item1, Content = result.Item2 });
                                 break;
                             case -1:
                             case -2:
-                                response = req.CreateResponse(HttpStatusCode.BadRequest,result.Item1);
+                                response = req.CreateResponse(HttpStatusCode.BadRequest, result.Item1);
                                 break;
                             default:
                                 response = req.CreateResponse(HttpStatusCode.InternalServerError);
@@ -67,7 +68,7 @@ namespace DRA.AzureFunction.Functions
                     {
                         message = "Failed to execure the request!!";
                         log.LogInformation(message);
-                        response = req.CreateResponse(HttpStatusCode.InternalServerError, new ResponseMessage<QuestionnaireResponse>() { Message = message, Content = null});
+                        response = req.CreateResponse(HttpStatusCode.InternalServerError, new ResponseMessage<QuestionnaireResponse>() { Message = message, Content = null });
                     }
                 }
                 else
