@@ -1,5 +1,6 @@
 ﻿using DRA.DataProvider.Models;
 using DRA.Models;
+using DRA.Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,7 +115,7 @@ namespace DRA.BusinessLogic.Mapper
                 answersModel = new List<ERAUserAnswerModel>();
                 answers.ForEach(x =>
                 {
-                    answersModel.Add(new ERAUserAnswerModel() { RiskID = x.RiskId, QuestionID = x.QuestionId, UserAnswerID = x.UserAnswerId, Answer = x.Answer, AssesmentDate = x.AssesmentDate, Score = x.Score, UserID = x.UserId, TestIdentifier = x.TestIdentifier });
+                    answersModel.Add(new ERAUserAnswerModel() { RiskID = x.RiskId, QuestionID = x.QuestionId, UserAnswerID = x.UserAnswerId, Answer = x.Answer, AssesmentDate = x.AssesmentDate, Score = x.Score, UserID = x.UserId, TestIdentifier = x.TestIdentifier ,UserImages = MapUserImagesToERAUserImages(x.UserImages.ToList())});
                 });
             }
 
@@ -135,6 +136,35 @@ namespace DRA.BusinessLogic.Mapper
             }
 
             return answers;
+        }
+
+        public static List<ERAUserImageModel> MapUserImagesToERAUserImages(List<UserImage> images)
+        {
+            List<ERAUserImageModel> imagesModel = null;
+            if (images.Any())
+            {
+                imagesModel = new List<ERAUserImageModel>();
+                images.ForEach(x =>
+                {
+                    imagesModel.Add(new ERAUserImageModel() { UserImageID = x.UserImageID, UserAnswerID = x.UserAnswerID, ImageFileName = x.ImageFileName });
+                });
+            }
+            return imagesModel;
+        }
+
+
+        public static List<UserImage> MapERAUserImagesToUserImages(List<ERAUserImageModel> userImages)
+        {
+            List<UserImage> images = null;
+            if (userImages.Any())
+            {
+                images = new List<UserImage>();
+                userImages.ForEach(x =>
+                {
+                    images.Add(new UserImage() { UserImageID = x.UserImageID, UserAnswerID = x.UserAnswerID, ImageFileName = x.ImageFileName });
+                });
+            }
+            return images;
         }
 
         public static ERAUserModel MapUserToERAUserModel(OnlineAssessmentUser user, bool isTestTaken = false, DateTime? assessmentDate = null, Guid? testIdentifier = null)

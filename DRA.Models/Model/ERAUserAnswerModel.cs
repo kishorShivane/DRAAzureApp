@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DRA.Models.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace DRA.Models
         public string Answer { get; set; }
         public int Score { get; set; }
         public Guid TestIdentifier { get; set; }
+        public List<ERAUserImageModel> UserImages { get; set; } = null;
     }
 }

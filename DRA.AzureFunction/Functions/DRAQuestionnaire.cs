@@ -53,7 +53,7 @@ namespace DRA.AzureFunction.Functions
                         switch (result.Item3)
                         {
                             case 1:
-                                response = req.CreateResponse(HttpStatusCode.Created, new ResponseMessage<QuestionnaireResponse>() { Message = result.Item1, Content = result.Item2 });
+                                response = req.CreateResponse(HttpStatusCode.Created, new ResponseMessage<bool>() { Message = result.Item1, Content = result.Item2 });
                                 break;
                             case -1:
                             case -2:

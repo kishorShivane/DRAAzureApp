@@ -16,13 +16,15 @@
         <AssociationConnector Association="DRAModel.FK_Questions_Questions" />
         <EntityTypeShape EntityType="DRAModel.OnlineAssessmentUser" Width="1.5" PointX="7.375" PointY="8.625" />
         <AssociationConnector Association="DRAModel.FK_OnlineAssessmentUser_UserType" />
-        <EntityTypeShape EntityType="DRAModel.UserAnswer" Width="1.5" PointX="11.875" PointY="6" />
         <EntityTypeShape EntityType="DRAModel.UserRisk" Width="1.5" PointX="9.625" PointY="3.125" />
-        <AssociationConnector Association="DRAModel.FK_UserAnswers_OnlineAssessmentUser" />
         <AssociationConnector Association="DRAModel.FK_UserRisks_OnlineAssessmentUser" />
+        <AssociationConnector Association="DRAModel.FK_UserRisks_Risks" />
+        <EntityTypeShape EntityType="DRAModel.UserAnswer" Width="1.5" PointX="11.875" PointY="5.875" />
+        <EntityTypeShape EntityType="DRAModel.UserImage" Width="1.5" PointX="14.125" PointY="6.625" />
+        <AssociationConnector Association="DRAModel.FK_UserAnswers_OnlineAssessmentUser" />
         <AssociationConnector Association="DRAModel.FK_UserAnswers_Questions" />
         <AssociationConnector Association="DRAModel.FK_UserAnswers_Risks" />
-        <AssociationConnector Association="DRAModel.FK_UserRisks_Risks" />
+        <AssociationConnector Association="DRAModel.FK_UserImages_UserAnswers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

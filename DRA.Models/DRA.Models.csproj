@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ERAUserImageModel.cs" />
     <Compile Include="Request\ERAReportRequest.cs" />
     <Compile Include="Request\CompetenciesReportRequest.cs" />
     <Compile Include="Model\ERAQuestionModel.cs" />

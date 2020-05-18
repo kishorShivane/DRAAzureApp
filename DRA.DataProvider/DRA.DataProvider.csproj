@@ -101,6 +101,9 @@
     <Compile Include="Models\UserCompetencyMatrix.cs">
       <DependentUpon>DRADB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserImage.cs">
+      <DependentUpon>DRADB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserRisk.cs">
       <DependentUpon>DRADB.tt</DependentUpon>
     </Compile>

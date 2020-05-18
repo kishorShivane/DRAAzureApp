@@ -1,6 +1,7 @@
 ﻿using DRA.BusinessLogic.Mapper;
 using DRA.DataProvider.Models;
 using DRA.Models;
+using DRA.Models.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace DRA.BusinessLogic.Workers
             var answers = await Task.Run(() => answersRepo.Get(x => (x.RiskId == request.RiskID || request.RiskID == 0) &&
                                                                 (x.QuestionId == request.QuestionID || request.QuestionID == 0) &&
                                                                 (x.UserId == request.UserID || request.UserID == 0) &&
-                                                                (x.TestIdentifier== request.TestIdentifier|| request.TestIdentifier== null)).ToList());
+                                                                (x.TestIdentifier == request.TestIdentifier || request.TestIdentifier == null), includeProperties: "UserImages").ToList());
             if (answers != null && answers.Any())
             {
                 answersModel = DataToDomain.MapUserAnswersToERAUserAnswers(answers);
@@ -57,10 +58,33 @@ namespace DRA.BusinessLogic.Workers
 
             if (userAnswers != null && userAnswers.Any())
             {
+                foreach (var answer in request.Answers)
+                {
+                    if (answer.UserImages != null && answer.UserImages.Any())
+                    {
+                        answer.UserImages.ForEach(x => x.UserAnswerID = userAnswers.FirstOrDefault(z => z.QuestionId == answer.QuestionID).UserAnswerId);
+                        var userImages = InsertUserImages(answer.UserImages);
+                        userAnswers.Where(x => x.QuestionId == answer.QuestionID).Select(x => { x.UserImages = userImages; return x; }).ToList();
+                    }
+                }
                 answersModel = DataToDomain.MapUserAnswersToERAUserAnswers(userAnswers);
                 response = new ERAUserAnswerResponse() { Answers = answersModel, TotalRecords = answersModel.Count() };
             }
             return response;
+        }
+
+        private List<UserImage> InsertUserImages(List<ERAUserImageModel> userImages)
+        {
+            var insertMe = new List<UserImage>();
+            if (userImages.Any())
+            {
+                var repo = unitOfWork.GetRepository<UserImage>();
+                insertMe = DataToDomain.MapERAUserImagesToUserImages(userImages);
+                repo.InsertAll(insertMe);
+                unitOfWork.Save();
+                userImages = DataToDomain.MapUserImagesToERAUserImages(insertMe);
+            }
+            return insertMe;
         }
     }
 }

@@ -14,6 +14,12 @@ namespace DRA.DataProvider.Models
     
     public partial class UserAnswer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserAnswer()
+        {
+            this.UserImages = new HashSet<UserImage>();
+        }
+    
         public int UserAnswerId { get; set; }
         public int UserId { get; set; }
         public System.DateTime AssesmentDate { get; set; }
@@ -26,5 +32,7 @@ namespace DRA.DataProvider.Models
         public virtual OnlineAssessmentUser OnlineAssessmentUser { get; set; }
         public virtual Question Question { get; set; }
         public virtual Risk Risk { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserImage> UserImages { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace DRA.Models
     {
         public int UserID { get; set; }
         public string Competency { get; set; }
-        public int NumberOfQuestion { get; set; }
-        public int Points { get; set; }
+        public string Points { get; set; }
     }
 }

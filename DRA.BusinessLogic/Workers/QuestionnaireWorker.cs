@@ -14,55 +14,62 @@ namespace DRA.BusinessLogic.Workers
         public QuestionnaireWorker(ILogger log) : base(log)
         { }
 
-        public async Task<Tuple<string, QuestionnaireResponse, int>> InsertUserCompetencyMatrices(QuestionnaireRequest request)
+        public async Task<Tuple<string, bool, int>> InsertUserCompetencyMatrices(QuestionnaireRequest request)
         {
-            QuestionnaireResponse response = null;
+            bool response = false;
             int status = 0;
             var message = "";
+            List<UserCompetencyMatrix> userCompetencies = new List<UserCompetencyMatrix>();
             var userRepo = unitOfWork.GetRepository<User>();
-            var user = await Task.Run(() => userRepo.Get(x=>x.UserID == request.UserID).FirstOrDefault());
+            var user = await Task.Run(() => userRepo.Get(x => x.UserID == request.UserID).FirstOrDefault());
             if (user != null)
             {
                 var jobMetricsRepo = unitOfWork.GetRepository<JobCompetencyMatrix>();
                 var jobRepo = unitOfWork.GetRepository<Job>();
                 var jobMetric = await Task.Run(() => jobMetricsRepo.Get(x => x.JobID == user.JobID).FirstOrDefault());
                 var job = await Task.Run(() => jobRepo.Get(x => x.JobID == user.JobID).FirstOrDefault());
+                var userMetricsRepo = unitOfWork.GetRepository<UserCompetencyMatrix>();
                 if (jobMetric != null)
                 {
-                    var userMetricsRepo = unitOfWork.GetRepository<UserCompetencyMatrix>();
-                    UserCompetencyMatrix userCompetency = new UserCompetencyMatrix();
-                    userCompetency.UserID = Convert.ToByte(request.UserID);
-                    userCompetency.Type = jobMetric.Type;
-                    userCompetency.MainGroup = jobMetric.Maingroup;
-                    userCompetency.SubGroup = jobMetric.Subgroup;
-                    userCompetency.Competency = request.Competency;
-                    userCompetency.LoW = jobMetric.LoW;
-                    userCompetency.RequiredLevel = jobMetric.RequiredLevel;
-                    userCompetency.CurrentLevel = request.Points / request.NumberOfQuestion;
-                    userCompetency.RatingDate = DateTime.Now;
-                    userCompetency.Gap = jobMetric.RequiredLevel - userCompetency.CurrentLevel;
+                    var comps = request.Competency.Split(';'); var points = request.Points.Split(';');
+                    if (comps.Length == points.Length)
+                    {
+                        UserCompetencyMatrix userCompetency;
+                        for (int i = 0; i < comps.Length; i++)
+                        {
+                            userCompetency = new UserCompetencyMatrix();
+                            userCompetency.UserID = Convert.ToByte(request.UserID);
+                            userCompetency.Type = jobMetric.Type;
+                            userCompetency.MainGroup = jobMetric.Maingroup;
+                            userCompetency.SubGroup = jobMetric.Subgroup;
+                            userCompetency.Competency = comps[i];
+                            userCompetency.LoW = jobMetric.LoW;
+                            userCompetency.RequiredLevel = jobMetric.RequiredLevel;
+                            userCompetency.CurrentLevel = Convert.ToInt32(Math.Round(Convert.ToDouble(points[i])));
+                            userCompetency.RatingDate = DateTime.Now;
 
-                    userMetricsRepo.Insert(userCompetency);
-                    unitOfWork.Save();
+                            var gap = jobMetric.RequiredLevel - userCompetency.CurrentLevel;
+                            userCompetency.Gap = gap > 0 ? gap : 0;
 
-                    response = new QuestionnaireResponse();
-                    response.UserFullName = user.UserName + ", " + user.UserSurname;
-                    response.UserEmail = user.UserEmail;
-                    response.Industry = user.Industry;
-                    response.Organization = user.Organization;
-                    response.BusinessFunction = user.BusinessFunction;
-                    response.JobTitle = job.JobTitle;
-                    response.Type = userCompetency.Type;
-                    response.MainGroup = userCompetency.MainGroup;
-                    response.SubGroup = userCompetency.SubGroup;
-                    response.Competency = userCompetency.Competency;
-                    response.LoW = userCompetency.LoW;
-                    response.RequiredLevel = userCompetency.RequiredLevel;
-                    response.CurrentLevel = userCompetency.CurrentLevel;
-                    response.Gap = userCompetency.Gap;
+                            userCompetencies.Add(userCompetency);
+                        }
+                    }
 
-                    status = 1;
-                    message = "Data inserted successfully for UserID: " + request.UserID;
+                    if (userCompetencies.Any())
+                    {
+                        userMetricsRepo.InsertAll(userCompetencies);
+                        unitOfWork.Save();
+
+                        status = 1;
+                        message = "Data inserted successfully for UserID: " + request.UserID;
+                        response = true;
+                    }
+                    else
+                    {
+                        status = -1;
+                        message = "No Competencies exist for UserID: " + request.UserID;
+                    }
+
                 }
                 else
                 {
@@ -73,9 +80,9 @@ namespace DRA.BusinessLogic.Workers
             else
             {
                 status = -2;
-                message = "User does not exist with UserID: "+ request.UserID;
+                message = "User does not exist with UserID: " + request.UserID;
             }
-            return new Tuple<string, QuestionnaireResponse, int>(message, response, status);
+            return new Tuple<string, bool, int>(message, response, status);
         }
     }
 }

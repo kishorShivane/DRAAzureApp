@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Workers\BaseWorker.cs" />
+    <Compile Include="Workers\ERAUserProfileWorker.cs" />
     <Compile Include="Workers\ERAUserRiskWorker.cs" />
     <Compile Include="Workers\ERAUserAnswerWorker.cs" />
     <Compile Include="Workers\ERARiskWorker.cs" />
