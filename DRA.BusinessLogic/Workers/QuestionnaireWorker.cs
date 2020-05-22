@@ -26,23 +26,26 @@ namespace DRA.BusinessLogic.Workers
             {
                 var jobMetricsRepo = unitOfWork.GetRepository<JobCompetencyMatrix>();
                 var jobRepo = unitOfWork.GetRepository<Job>();
-                var jobMetric = await Task.Run(() => jobMetricsRepo.Get(x => x.JobID == user.JobID).FirstOrDefault());
                 var job = await Task.Run(() => jobRepo.Get(x => x.JobID == user.JobID).FirstOrDefault());
                 var userMetricsRepo = unitOfWork.GetRepository<UserCompetencyMatrix>();
-                if (jobMetric != null)
+
+                var comps = request.Competency.Split(';'); var points = request.Points.Split(';');
+                if (comps.Length == points.Length)
                 {
-                    var comps = request.Competency.Split(';'); var points = request.Points.Split(';');
-                    if (comps.Length == points.Length)
+                    UserCompetencyMatrix userCompetency;
+
+                    for (int i = 0; i < comps.Length; i++)
                     {
-                        UserCompetencyMatrix userCompetency;
-                        for (int i = 0; i < comps.Length; i++)
+                        var comp = comps[i];
+                        var jobMetric = await Task.Run(() => jobMetricsRepo.Get(x => x.JobID == user.JobID && x.Competency.Equals(comp)).FirstOrDefault());
+                        if (jobMetric != null)
                         {
                             userCompetency = new UserCompetencyMatrix();
                             userCompetency.UserID = Convert.ToByte(request.UserID);
                             userCompetency.Type = jobMetric.Type;
                             userCompetency.MainGroup = jobMetric.Maingroup;
                             userCompetency.SubGroup = jobMetric.Subgroup;
-                            userCompetency.Competency = comps[i];
+                            userCompetency.Competency = comp;
                             userCompetency.LoW = jobMetric.LoW;
                             userCompetency.RequiredLevel = jobMetric.RequiredLevel;
                             userCompetency.CurrentLevel = Convert.ToInt32(Math.Round(Convert.ToDouble(points[i])));
@@ -53,28 +56,28 @@ namespace DRA.BusinessLogic.Workers
 
                             userCompetencies.Add(userCompetency);
                         }
+                        else
+                        {
+                            status = -1;
+                            message = "Job Metric does not exist for UserID: " + request.UserID;
+                            break;
+                        }
                     }
+                }
 
-                    if (userCompetencies.Any())
-                    {
-                        userMetricsRepo.InsertAll(userCompetencies);
-                        unitOfWork.Save();
+                if (userCompetencies.Any())
+                {
+                    userMetricsRepo.InsertAll(userCompetencies);
+                    unitOfWork.Save();
 
-                        status = 1;
-                        message = "Data inserted successfully for UserID: " + request.UserID;
-                        response = true;
-                    }
-                    else
-                    {
-                        status = -1;
-                        message = "No Competencies exist for UserID: " + request.UserID;
-                    }
-
+                    status = 1;
+                    message = "Data inserted successfully for UserID: " + request.UserID;
+                    response = true;
                 }
                 else
                 {
                     status = -1;
-                    message = "Job Metric does not exist for UserID: " + request.UserID;
+                    message = "No Competencies exist for UserID: " + request.UserID;
                 }
             }
             else
