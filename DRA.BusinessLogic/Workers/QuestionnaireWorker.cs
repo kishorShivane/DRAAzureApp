@@ -36,11 +36,11 @@ namespace DRA.BusinessLogic.Workers
 
                     for (int i = 0; i < comps.Length; i++)
                     {
+                        userCompetency = new UserCompetencyMatrix();
                         var comp = comps[i];
                         var jobMetric = await Task.Run(() => jobMetricsRepo.Get(x => x.JobID == user.JobID && x.Competency.Equals(comp)).FirstOrDefault());
                         if (jobMetric != null)
                         {
-                            userCompetency = new UserCompetencyMatrix();
                             userCompetency.UserID = Convert.ToByte(request.UserID);
                             userCompetency.Type = jobMetric.Type;
                             userCompetency.MainGroup = jobMetric.Maingroup;
@@ -55,11 +55,23 @@ namespace DRA.BusinessLogic.Workers
                             userCompetency.Gap = gap > 0 ? gap : 0;
 
                             userCompetencies.Add(userCompetency);
+                            if (Convert.ToDouble(points[i]) <= 0)
+                            {
+                                log.LogError("Current Level in the request is 0 for: " + request.UserID + " with competency :" + comp + " below is the data." + "\n" +
+                                " Competency Object:\n" +
+                                " UserID = " + request.UserID + "\n" +
+                                " Competency = " + comp + "\n" +
+                                " Points = " + points[i] + "\n");
+                            }
                         }
                         else
                         {
                             status = -1;
-                            message = "Job Metric does not exist for UserID: " + request.UserID;
+                            log.LogError("Job Metric does not exist for UserID: " + request.UserID + " with competency :" + comp + " below is the data." + "\n" +
+                                " Competency Object:\n" +
+                                " UserID = " + request.UserID + "\n" +
+                                " Competency = " + comp + "\n" +
+                                " Points = " + points[i] + "\n");
                             break;
                         }
                     }
@@ -85,6 +97,7 @@ namespace DRA.BusinessLogic.Workers
                 status = -2;
                 message = "User does not exist with UserID: " + request.UserID;
             }
+            log.LogDebug(message);
             return new Tuple<string, bool, int>(message, response, status);
         }
     }

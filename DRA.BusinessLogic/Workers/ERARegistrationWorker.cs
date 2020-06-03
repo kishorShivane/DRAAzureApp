@@ -70,8 +70,8 @@ namespace DRA.BusinessLogic.Workers
                         message = "No user type found with user type name:" + userModel.UserType;
                     }
                 }
-
             }
+            log.LogDebug(message);
             return new Tuple<string, ERAUserModel, int>(message, result, status);
         }
 

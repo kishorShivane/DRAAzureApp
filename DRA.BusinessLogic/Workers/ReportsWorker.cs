@@ -49,7 +49,7 @@ namespace DRA.BusinessLogic.Workers
                 });
                 message = "Found " + response.Count() + " records";
             }
-
+            log.LogDebug(message);
             return new Tuple<string, List<UserCompetencyMatrixModel>>(message, response);
         }
     }

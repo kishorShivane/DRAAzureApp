@@ -95,8 +95,8 @@ namespace DRA.BusinessLogic.Workers
                         }
                     }
                 }
-
             }
+            log.LogDebug(message);
             return new Tuple<string, UserModel, int>(message, result, status);
         }
 

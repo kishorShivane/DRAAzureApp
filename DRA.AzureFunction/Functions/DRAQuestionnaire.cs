@@ -66,7 +66,7 @@ namespace DRA.AzureFunction.Functions
                     }
                     else
                     {
-                        message = "Failed to execure the request!!";
+                        message = "Failed to execute the request!!";
                         log.LogInformation(message);
                         response = req.CreateResponse(HttpStatusCode.InternalServerError, new ResponseMessage<QuestionnaireResponse>() { Message = message, Content = null });
                     }
