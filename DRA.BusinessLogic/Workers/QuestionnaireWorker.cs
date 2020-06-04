@@ -19,6 +19,7 @@ namespace DRA.BusinessLogic.Workers
             bool response = false;
             int status = 0;
             var message = "";
+            var isMissMatch = false;
             List<UserCompetencyMatrix> userCompetencies = new List<UserCompetencyMatrix>();
             var userRepo = unitOfWork.GetRepository<User>();
             var user = await Task.Run(() => userRepo.Get(x => x.UserID == request.UserID).FirstOrDefault());
@@ -75,6 +76,10 @@ namespace DRA.BusinessLogic.Workers
                         }
                     }
                 }
+                else
+                {
+                    isMissMatch = true;
+                }
 
                 if (userCompetencies.Any())
                 {
@@ -88,7 +93,10 @@ namespace DRA.BusinessLogic.Workers
                 else
                 {
                     status = -1;
-                    message = "No Competencies exist for UserID: " + request.UserID;
+                    if (isMissMatch)
+                        message = "Error in the Request: Number of Competencies does not match number of points in the request data passed.";
+                    else
+                        message = "No Competencies exist for UserID: " + request.UserID;
                 }
             }
             else
