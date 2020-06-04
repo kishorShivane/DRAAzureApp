@@ -72,7 +72,6 @@ namespace DRA.BusinessLogic.Workers
                                 " UserID = " + request.UserID + "\n" +
                                 " Competency = " + comp + "\n" +
                                 " Points = " + points[i] + "\n");
-                            break;
                         }
                     }
                 }
